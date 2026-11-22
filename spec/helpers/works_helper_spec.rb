@@ -96,4 +96,22 @@ describe WorksHelper do
       end
     end
   end
+
+  describe "#related_work_note" do
+    let(:work) { create(:work) }
+
+    before { helper.instance_variable_set(:@virtual_path, "works/_work_header_notes") }
+
+    context "when downloading" do
+      it "returns absolute link" do
+        expect(helper.related_work_note(work, "inspired_by", download: true)).to include("href=\"#{work_url(work)}\"")
+      end
+    end
+
+    context "when on the site" do
+      it "returns relative link" do
+        expect(helper.related_work_note(work, "inspired_by")).to include("href=\"#{work_path(work)}\"")
+      end
+    end
+  end
 end

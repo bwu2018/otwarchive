@@ -137,7 +137,12 @@ module WorksHelper
 
     return t(".#{relation}.deleted", locale: default_locale) if related_work.nil?
 
-    work_link = link_to related_work.title, polymorphic_url(related_work)
+    work_link = if download
+                  link_to related_work.title, polymorphic_url(related_work)
+                else
+                  link_to related_work.title, polymorphic_path(related_work)
+                end
+
     language = tag.span(related_work.language.name, lang: related_work.language.short) if related_work.language
 
     creator_link = if download
